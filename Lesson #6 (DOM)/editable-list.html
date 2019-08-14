@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>editable-list</title>
+	<style type="text/css">
+		body {
+			background-color: #6affae;
+			font-family: 'Montserrat', sans-serif;
+			font-size: 150%
+
+		}
+		.b1{
+				text-decoration: none;
+				outline: none;
+				
+				
+				color: white;
+				padding: 10px 20px;
+				margin: 0px 20px;
+				border-radius: 5px;
+				font-family: 'Montserrat', sans-serif;
+				text-transform: uppercase;
+				letter-spacing: 2px;
+				background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+				background-size: 200% auto;
+				box-shadow: 0 0 20px rgba(0,0,0,.1);
+		}			
+
+		.input {
+			font-family: 'Montserrat', sans-serif;
+			font-size: 100%;
+			background-color: #fcffb6;			
+		}
+
+		#inputs{
+			margin: 0px 20px;
+		}
+
+
+
+
+	</style>
+</head>
+<body>
+
+<div id="div">
+	<input type="text" value="" id="inputs" class="input">
+	<input type="button" class="b1" value="Добавить" onclick="addLi()">
+	<input type="button" class="b1" value="Удалить" onclick="deleteLi()" id="buttonDel">	
+</div>
+
+<script src="editable-list.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Cookie-birthday</title>
+	<style type="text/css">
+		body{
+			background-image: url(background1.jpg);
+		}
+		
+		#container{
+			position: absolute;
+			left: 45px;
+			top: 380px;
+			width: 880px;
+			height: 210px;
+			background: rgba(220, 220, 220, 0.71);
+			font-family: Geneva, Arial, Helvetica, sans-serif;
+			font-size: 250%;
+			color: #783c0e;
+			text-align:center;
+			padding: 0px 180px;
+			border: 15px solid #ffcf17;
+			display: none;
+		}
+
+		#container:hover {
+			outline: 15px inset steelblue;
+			outline-offset: 0px;
+		}
+
+		#nameUser{
+		position: relative;	
+		font-size: 150%;
+		padding-bottom: 15px;
+		opacity: 1;
+		}
+
+		#timer{
+		position: absolute;
+		margin-top: 25px;
+		font-size: 125%;
+		text-align:left;
+		opacity: 1;
+		}
+
+		#question{
+			position: absolute;
+			top: 400px;
+			left: 970px;
+			width: 290px;
+			height: 220px;
+			font-size: 150%;
+			color: #783c0e;
+			background-color: rgba(145, 220, 242, 0.71);
+			padding: 5px 30px;
+			opacity: 0;
+		}
+
+		#question.check{
+			animation: run  1.5s ease-in-out 1s forwards;	
+		}
+
+		input{
+			border: 1px solid #cccccc;
+			border-radius: 3px;
+			height: 35px; 
+		    width:270px; 
+		    color: #403e3d; 
+		    font-size: 20px;
+		    margin-bottom: 5px;
+		}
+		
+		span{
+			display: inline-block;
+			height:300px;
+			margin:10px;
+			border: 10px inset #ffcf17;
+		}
+
+		#gallery{
+			margin-top: 10px;
+			padding-left: 13px;
+		}
+
+		p{
+			margin:10px 0px;
+		}
+
+		@keyframes run {
+		from {
+			transform: translateY(-250%) scale(0);
+			opacity: 1;
+			animation-timing-function: ease-in;
+			}
+			40% {
+			transform: translateY(10%) scale(1);
+			opacity: 1;
+			animation-timing-function: ease;
+			}
+			50% {
+			transform: translateY(-20%) scale(1);
+			opacity: 1;
+			animation-timing-function: ease-in;
+			}
+			60% {
+			transform: translateY(5%) scale(1);
+			opacity: 1;
+			animation-timing-function: ease;
+			}
+			70% {
+			transform: translateY(-10%) scale(1);
+			opacity: 1;
+			animation-timing-function: ease-in;
+			}
+			80% {
+			transform: translateY(2%) scale(1);
+			opacity: 1;
+			animation-timing-function: ease;
+			}
+			90% {
+			transform: translateY(-3%) scale(1);
+			opacity: 1;
+			animation-timing-function: ease;
+			}
+			to {
+			transform: translateY(0%) scale(1);
+			opacity: 1;
+			}
+		}
+		
+		#question.animate{
+			animation: go 1s;
+		}
+
+		@keyframes go{
+			from{opacity: 1; 
+				transform:translateY(0%); 
+			}
+			to{opacity: 0; 
+				transform:translateY(-300%) scale(0); 
+			}
+		}
+
+	</style>
+</head>
+<body>
+	<div id="question">
+		<div id="div1">
+			<p>Введите Ваше имя</p>
+			<input type="text" id="inputName" ></input>
+		</div>
+		<div id="div2">
+			<p>Введите дату рождения в<br> формате "ГГГГ,ММ,ДД" </p>
+			<input type="text" id="inputAge"></input>
+		</div>
+	</div>
+
+	<div id="container">
+		<div id="nameUser"></div>
+		<div>До Вашего дня рождения осталось:</div>
+		<div id="timer"></div>
+	</div>
+	<div id="gallery">
+		<span><img src="image3.jpg" alt="здесь было красиво"></span>
+		<span><img src="image1.jpg" alt="здесь было красиво"></span>
+		<span><img src="image2.jpg" alt="здесь было красиво"></span>
+	</div>
+<script type="text/javascript">
+	var name, date, time, dateBirthday;
+	function check() {
+		if(getCookie('name') && getCookie('Birthday')){
+			calcDate();	
+		}else{question.classList.add('check');}
+	}
+
+	check();
+
+	inputName.onblur =function() {
+		if (!this.value || this.value.length < 2|| this.value.length > 15) {
+			this.value = "Не верные данные      ;(";
+			var self = this;
+			
+			setTimeout(clean, 2000);
+			
+			function clean(){
+				self.value = "";
+			}
+		}else{
+			name = this.value; 
+			console.log(name);			
+			hi();
+		};
+
+	}
+
+	inputAge.onblur =function() {
+		var str = this.value;
+		if (!str || str.length !== 10|| +(str[5] + str[6])  > 12 || +(str[5] + str[6])  < 1 || +(str[8] + str[9])  > 31 || +(str[8] + str[9])  < 0 || str[4] !=="," || str[7] !==",") {
+
+			this.value = "Не верные данные      ;(";
+			var self = this;
+			
+			setTimeout(clean, 2000);
+			
+			function clean(){
+				self.value = "";
+			}
+		}else{
+			dateBirthday = this.value; 
+			console.log(dateBirthday);
+			hi();
+		};	
+	}
+	
+	function hi(){
+		if( name && dateBirthday){
+
+			question.classList.add('animate');
+			dateBirthday = new Date(dateBirthday);	
+			console.log(dateBirthday);
+			
+			var expire = new Date();
+			expire.setHours(expire.getHours() + 4);
+			document.cookie = "name="+ name +";expires=" + expire.toUTCString() + ";";
+			document.cookie = "Birthday="+ dateBirthday +";expires=" + expire.toUTCString() + ";";
+		}
+	}
+
+	function getCookie(name) {
+	  var matches = document.cookie.match(new RegExp(
+	    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+	  ));
+	  return matches ? decodeURIComponent(matches[1]) : undefined;
+	}
+
+	function calcDate() {
+	    date = new Date();
+	    dateBirthday = new Date(getCookie('Birthday'));
+	    dateBirthday.setFullYear(date.getFullYear());
+		if (date > dateBirthday) {
+			dateBirthday.setFullYear(date.getFullYear() + 1);
+			time = dateBirthday - date;
+		} else {time = dateBirthday - date;}
+
+	    var second = Math.floor((time/1000)%60);
+	    var minute = Math.floor((time/1000/60)%60);
+	    var hour = Math.floor((time/1000/60/60)%24);
+	    var day = Math.floor(time/1000/60/60/24);
+	    var months = Math.floor(day/30);
+
+	    var s;
+	    var m;
+	    var h;
+	    var d;
+	    
+	    if (second%10 == 1 && second !== 11 ) {s=" секунда "
+		} else if ((second%10 == 2 || second%10 == 3 || second%10 == 4) && (second < 10 || second > 20)){s = " секунды "
+	    } else {s = " секунд "};
+	    	
+	    if (minute%10 == 1 && minute !== 11 ) {m=" минута "
+		} else if ((minute%10 == 2 || minute%10 == 3 || minute%10 == 4) && (minute < 10 || minute > 20)){m = " минуты "
+	    } else {m = " минут "};
+
+	    if (hour%10 == 1 && hour !== 11 ) {h =" час "
+		} else if ((hour%10 == 2 || hour%10 == 3 || hour%10 == 4) && (hour < 10 || hour > 20)){h = " часа "
+	    } else {h = " часов "};
+
+	    if (day%10 == 1 && day%100 !== 11 ) {d =" день "
+		} else if ((day%10 == 2 || day%10 == 3 || day%10 == 4) && (day < 10 || day > 20)){d = " дня "
+	    } else {d = " дней "};    
+
+		if (second < 10) {second = '0' + second}
+		if (minute < 10) {minute = '0' + minute }
+		if (hour < 10) {hour = '0' + hour }
+
+		nameUser.innerHTML = "Здравствуйте " + name + "!";
+		timer.innerHTML =day + d +hour + h + minute + m + second + s;
+		container.style.display = "block";
+
+	    setTimeout(calcDate, 1000);
+    }
+
+</script>
+
+</body>
+</html>
+
+
+
+<script type="text/javascript" src="test1"></script>

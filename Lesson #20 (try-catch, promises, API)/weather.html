@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Weather</title>
+</head>
+<style type="text/css">
+	a{
+		text-decoration: none;
+		position: absolute;
+		right: 5px;
+		top: 5px;
+		font-size: 0.7em;
+		font-family: Georgia, 'Times New Roman', Times, serif;
+		color: red;
+	}
+
+	.start{
+		position: absolute;
+		top: 20px;
+		right: 20px;
+	}
+
+	.header{
+		background-color: rgba(255, 138, 5, 1);
+		width: 260px;
+		height: 25px;
+		border-radius: 10px 10px 0px 0px;
+		font-size: 1.5em;
+		font-family: Georgia, 'Times New Roman', Times, serif;
+		text-align: center;
+		padding: 5px;
+	}
+
+	.boxWidget{
+		position: fixed;
+		right: 20px;
+		top: 20px;
+		width: 270px;
+		height: 200px;
+		background-image: url(sky4.jpg);
+		border-radius: 10px;
+	}
+
+	.list{
+		position: relative;
+		display: inline-block;
+		background-color: rgba(90, 193, 214, .5);
+		width: 49.6%;
+		height: 25px;
+		float:left;
+		text-align: center;
+		font-size: 1.2em;
+		font-family: Georgia, 'Times New Roman', Times, serif;
+	}
+
+	.list:hover{
+		background: rgba(59, 135, 150, .5);;
+	}
+	.oneDay{
+		border-right: 2px solid white;
+	}
+
+	.hidden{
+		visibility:hidden;
+	}
+
+	#location{
+		position: relative;
+		float:right;
+		font-size: 150%;
+		font-family: Georgia, 'Times New Roman', Times, serif;
+		padding: 7px 35px 10px 15px;
+	}
+
+	#temp{
+		position:absolute;
+		font-size: 290%;
+	/*	font-family: Geneva, Arial, Helvetica, sans-serif;*/
+		top:40px;
+		right: 15px;
+	}
+
+	#temp-with-icon{
+		padding: 0px 10px 0px 10px;
+	}
+
+	#descr{
+		position: relative;
+		float: left;
+		font-family: Georgia, 'Times New Roman', Times, serif;
+		padding: 0px 10px 10px 10px;
+	}
+
+	#wind{
+		position: relative;
+		float: right;
+		font-family: Georgia, 'Times New Roman', Times, serif;
+		padding: 0px 10px 10px 5px;
+	}
+	.boxWeather{
+		position: absolute;
+		top: 60px;
+		width: 100%;
+		height: 140px;
+	}
+
+	.columnWeather{
+		position: relative;
+		display: inline-block;
+		width: 33%;
+		height: 100%;
+		text-align: center;
+		font-size: 1.3em;
+		padding-top: 5px;
+/*		border-right: 1px solid white;*/
+	}
+
+	.forecastTepm{
+		font-size: 1.2em;
+		padding: 20px 0px 10px 0px;
+	}
+
+</style>
+<body>
+	<div class="start"><img src="_icon.png"></div>
+	<script src="weather.js"></script>
+</body>
+</html>

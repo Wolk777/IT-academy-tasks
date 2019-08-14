@@ -1,0 +1,7 @@
+https://medium.com/nuances-of-programming/%D1%87%D1%82%D0%BE-%D1%82%D0%B0%D0%BA%D0%BE%D0%B5-throttling-%D0%B8-debouncing-4f0a839769ef
+
+https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
+
+https://html5please.com/
+
+http://selectivizr.com/

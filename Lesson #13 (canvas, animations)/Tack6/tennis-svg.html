@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Tennus SVG</title>
+	<style type="text/css">
+	#rect{
+		fill:yellow;
+	}
+
+	#start{
+		margin-left: 100px;
+		margin-top:50px;
+	}
+	
+	</style>
+</head>
+<body>
+	<div class="button">
+		<input type="button" id="start" value="Start Tennis" onclick="start()">
+	</div>
+
+	<div id="tennis"></div>
+	<script type="text/javascript">
+		var keys = [];
+		var speed = 5;
+		var timerId;
+		var flag = 1;
+
+		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		svg.setAttribute('id','svg');
+		svg.setAttribute('width',600);
+		svg.setAttribute('height',400);
+		svg.setAttribute('viewBox','0,0,600,400');
+		tennis.append(svg);
+		
+		var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+		rect.setAttribute('id','rect');
+		rect.setAttribute('x',0);
+		rect.setAttribute('y',0);
+		rect.setAttribute('width',600);
+		rect.setAttribute('height',400);
+		svg.append(rect);
+		
+		function createRacquet(x){
+			this.height = 100;
+			this.width = 10;
+			this.x = x;
+			this.y = 200 - this.height/2;
+			this.fill = 'red';
+			this.score = 0;
+			//this.speed = 4;
+			this.draw = function(){
+				ctx.fillStyle = this.fill;
+				ctx.fillRect(this.x,this.y,this.w,this.h)
+			}
+		}
+
+		var circle = {
+			cx: 300,
+			cy: 200,
+			r: 10,
+			vx: Math.floor(Math.random()*12 - 6),
+			vy: 4,
+			fill:'red',
+			draw: function (){
+				ctx.beginPath();
+				ctx.fillStyle = this.c;
+				ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, false);
+				ctx.fill();		
+			}
+		};		
+
+		var racquet1 = new createRacquet(0);
+		var racquet2 = new createRacquet(590);
+		var player1 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+		var player2 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+		var score = document.createElementNS("http://www.w3.org/2000/svg", "text");
+		var ball = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+		var svgWidth= +svg.getAttribute('width');
+		var svgHeight= +svg.getAttribute('height');
+
+		svg.append(player1,player1);
+		svg.append(player2,player2);
+		svg.append(score);
+		svg.append(ball);
+
+		player1.setAttribute('id','player1');
+		player2.setAttribute('id','player2');
+		ball.setAttribute('id','ball');
+		score.setAttribute('id','score');
+		score.setAttribute('x',280);
+		score.setAttribute('y',100);
+		score.innerHTML = +player1.getAttribute('score') + ":" + +player2.getAttribute('score');
+
+
+
+		function func(racquet, player){
+			for(var key in racquet){
+				player.setAttribute(key,racquet[key])
+			}
+		}
+		
+		func (racquet1,player1);
+		func (racquet2,player2);
+		func (circle,ball);
+
+		var playerHeight = +player1.getAttribute('height');
+		var playerWidth = +player1.getAttribute('width');
+
+function uptade(){
+
+	if(keys[87]) {
+		player1.setAttribute('y', +player1.getAttribute('y')-speed);
+		if (+player1.getAttribute('y') < 0) {player1.setAttribute('y',0)};
+	}
+	
+	if(keys[83]) {
+		player1.setAttribute('y', +player1.getAttribute('y')+speed);
+		if (+player1.getAttribute('y') + playerHeight > svgHeight){
+			player1.setAttribute('y', svgHeight - playerHeight)};
+	}
+
+	if(keys[38]) {
+		player2.setAttribute('y', +player2.getAttribute('y')-speed);
+		if (+player2.getAttribute('y') < 0) {player2.setAttribute('y',0)};
+	}
+
+	if(keys[40]) {
+		player2.setAttribute('y', +player2.getAttribute('y')+speed);
+		if (+player2.getAttribute('y') + playerHeight > svgHeight){
+			player2.setAttribute('y', svgHeight - playerHeight)};	
+	}
+
+	ball.setAttribute('cx',+ball.getAttribute('cx') + +ball.getAttribute('vx'));
+	ball.setAttribute('cy',+ball.getAttribute('cy') + +ball.getAttribute('vy'));
+
+    if ((+ball.getAttribute('cx') + +ball.getAttribute('r')) > svgWidth){
+    	ball.setAttribute('cx',svgWidth  - +ball.getAttribute('r'));
+    	player1.setAttribute('score', (+player1.getAttribute('score')) + 1);
+    	gameOver();
+    }else if((+ball.getAttribute('cx') - +ball.getAttribute('r')) < 0){
+    	ball.setAttribute('cx',+ball.getAttribute('r'));
+    	//ball.x = ball.r;
+    	player2.setAttribute('score', (+player2.getAttribute('score')) + 1);
+    	gameOver();
+    }
+
+    if (+ball.getAttribute('cy') + +ball.getAttribute('r') > svgHeight){
+    	ball.setAttribute('vy', -+ball.getAttribute('vy'));
+    	ball.setAttribute('cy', svgHeight - +ball.getAttribute('r'));
+    }else if(+ball.getAttribute('cy') - +ball.getAttribute('r') < 0){
+    	ball.setAttribute('vy', -+ball.getAttribute('vy'));
+    	ball.setAttribute('cy',+ball.getAttribute('r'));
+    }
+
+    if (collision(ball, player1)) {
+    	ball.setAttribute('cx', playerWidth + +ball.getAttribute('r'));
+    	ball.setAttribute('vx', -+ball.getAttribute('vx'));
+    }    
+
+    if (collision(ball, player2)) {
+    	ball.setAttribute('cx', svgWidth - playerWidth - +ball.getAttribute('r'));
+    	//ball.x = canvas.width - racquet2.w - ball.r;
+    	ball.setAttribute('vx', -+ball.getAttribute('vx'));
+    }
+
+}
+
+function start(){
+	if(flag){
+	flag = 0;
+	ball.setAttribute('cx', svgWidth/2);
+	ball.setAttribute('cy', svgHeight/2);
+	ball.setAttribute('vx', Math.floor(Math.random()*12 - 6),);
+	startAnimation();
+	}	
+}
+
+function startAnimation(){
+	timerId = requestAnimationFrame(startAnimation);
+	uptade();
+}
+
+
+// startAnimation();
+
+function collision(ball,player){
+	if((+ball.getAttribute('cy') - +ball.getAttribute('r')) < (+player.getAttribute('y') + playerHeight) && (+ball.getAttribute('cy') + +ball.getAttribute('r')) > +player.getAttribute('y')){
+		if((+ball.getAttribute('cx') - +ball.getAttribute('r')) < (+player.getAttribute('x') + playerWidth) && +player.getAttribute('x') == 0){
+			return true;
+		}else if((+ball.getAttribute('cx') + +ball.getAttribute('r')) > +player.getAttribute('x') && +player.getAttribute('x') > 0){
+			return true; 
+		}else{
+			return false;
+		}
+	}
+}
+
+function gameOver(){
+	score.innerHTML = +player1.getAttribute('score') + ":" + +player2.getAttribute('score');
+	flag = 1;
+	cancelAnimationFrame(timerId);
+}
+
+document.body.addEventListener("keydown", function (e) {
+    keys[e.keyCode] = true;
+});
+document.body.addEventListener("keyup", function (e) {
+    keys[e.keyCode] = false;
+});
+
+	</script>
+</body>
+</html>

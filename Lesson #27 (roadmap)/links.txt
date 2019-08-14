@@ -1,0 +1,52 @@
+Путь развития или roadmap:
+1) https://css-tricks.com/developer-roadmaps/
+2) https://bespoyasov.ru/front-not-pain/
+3) https://www.100daysofcode.com/ и https://medium.com/@ABatickaya/100daysofcode-7584c0ddfc1a
+4) От нуля до фронтдева - часть1 (http://bit.ly/2JF304Z) и часть2 (http://bit.ly/2JCcvBT)
+
+Книги:
+1) JavaScript: сильные стороны - http://orkhanalyshov.com/media/JavaScript/books/TheGoodParts.pdf
+2) Секреты JavaScript ниндзя - https://vk.com/doc190970339_437447565?hash=c911adb6c55217a395&dl=a26b4974ef50420791
+3) Выразительный JavaScript - https://www.gotoadm.ru/files/eloquentjavascript_ru.pdf или https://karmazzin.gitbooks.io/eloquentjavascript_ru/content/index.html
+4) You don't know javascript - https://github.com/azat-io/you-dont-know-js-ru
+*) JavaScript. Подробное руководство - https://owlweb.ru/wp-content/uploads/2017/10/devid-flenagan-javascript.-podrobnoe-rukovodstvo-6-e-izdanie-2012.compressed.pdf
+
+Комьюнити, порталы, подкасты:
+1) https://www.freecodecamp.org/
+2) https://www.codenewbie.org/
+3) https://scotch.io/
+4) https://javascript30.com/
+5) https://frontendbelarus.slack.com/
+
+Вопросники:
+1) https://stackoverflow.com/ или https://ru.stackoverflow.com/
+2) https://toster.ru/
+
+Твиттер:
+1) @wesbos
+2) @getify
+3) @Aimee_Knight
+4) @reverentgeek
+5) @codenewbies
+6) @freecodecamp
+7) @oktadev
+8) @yoksel
+9) @webstandards_ru
+10)@CSS_Minsk_JS
+
+Youtube:
+1) https://www.youtube.com/user/iliakan/featured
+2) https://www.youtube.com/user/dmitrylavr/featured
+3) https://www.youtube.com/playlist?list=PLVfMKQXDAhGW0p_BEEe47UkCgNoS_dyki
+4) создание игры-раннера - https://www.youtube.com/watch?v=s1NwMmjnrTY
+
+Помимо всего, нужно знать и это:
+1) https://proglib.io/p/git-for-half-an-hour/
+2) https://git-scm.com/book/ru/v1/%D0%92%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D1%8B-Git
+3) https://githowto.com/ru
+4) https://medium.com/@ABatickaya/%D1%88%D0%BF%D0%B0%D1%80%D0%B3%D0%B0%D0%BB%D0%BA%D0%B0-%D0%BF%D0%BE-git-55eeea487676
+5) https://www.youtube.com/playlist?list=PLDyvV36pndZHkDRik6kKF6gSb0N0W995h
+6) devtools подробно - https://www.youtube.com/watch?time_continue=2&v=C8Z-N0y6Sqo
+*) https://github.com/trekhleb/javascript-algorithms
+
+И иметь аккуанты на https://github.com/, https://about.gitlab.com/, https://bitbucket.org/

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Clock</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="clock.css">
+</head>
+<body>
+	<div class="clock">
+	<div class="watch"></div>
+		<div class="hands minute"></div>
+		<div class="hands hour"></div>
+		<div class="hands second"></div>
+		<div class="circle"></div>
+	</div>
+
+	<script type="text/javascript">
+		
+		var clock = document.querySelector('div.clock');
+		var watch = clock.querySelector('div.watch');
+		var divHour = clock.querySelector('div.hour');
+		var divMinute = clock.querySelector('div.minute');
+		var divSecond = clock.querySelector('div.second');
+		
+		var radius = 170;
+		var angle = 30/180*Math.PI;
+		var centerX = 200;
+		var centerY = 200;
+
+		for (var i = 1; i <= 12; i++) {
+
+			var numbers = document.createElement('div');
+			numbers.className = 'numbers';
+			numbers.innerHTML = "<span class=number>" + i + "</span>";
+			clock.appendChild(numbers);		
+
+			var numbersX = centerX+radius*Math.sin(angle);
+			var numbersY = centerY-radius*Math.cos(angle);
+
+		    numbers.style.left = Math.round(numbersX-numbers.offsetWidth/2)+"px";
+		    numbers.style.top = Math.round(numbersY-numbers.offsetHeight/2)+"px";
+
+			angle +=  30/180*Math.PI;	
+		};
+
+		function runClock(){
+				var now = new Date;
+				var hour = now.getHours();
+				var min = now.getMinutes();
+				var sec = now.getSeconds();
+				var ms = now.getMilliseconds();
+
+
+				var hourRotation = 30 * (hour % 12) + 0.5*min;
+				var minRotation = 6 * min + 0.1*sec;
+				var secRotation = 6 * sec + 0.006*ms;
+
+				divHour.style.transform = "rotate(" + hourRotation + "deg)";
+				divMinute.style.transform = "rotate(" + minRotation + "deg)";
+				divSecond.style.transform = "rotate(" + secRotation + "deg)";
+				
+				if (min < 10) {min = '0' + min};
+				if (sec < 10) {sec = '0' + sec};
+				watch.innerHTML = "<span class='span'>" + hour + ":" + min + ":" + sec + "</span>";
+
+				requestAnimationFrame(runClock);
+
+		};
+
+		runClock();
+	</script>
+
+</body>
+</html>

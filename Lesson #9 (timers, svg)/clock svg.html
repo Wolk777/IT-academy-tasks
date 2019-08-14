@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Clock SVG</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		.clockHands{
+			transform-origin: 50% 50%;
+			z-index: 100;
+			opacity: 0.8;
+		}
+
+		.marks{
+			transform-origin: 50% 50%;
+			display: block;
+			stroke: aquamarine;
+			fill:yellow;
+		}
+
+		.clockNumbers{
+			position: relative;
+			text-anchor: middle;
+			fill: red;
+		}
+
+		.text{
+			fill:red;
+			font-family:Verdana;
+			text-anchor: middle;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="clockbox">
+		<svg id="clockSvg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="600" height="600" viewBox="0 0 600 600">
+			<defs>
+				<linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+ 			        <stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:1" />
+      				<stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
+			    </linearGradient>      
+			</defs>	
+
+            <circle id="clock" class="circle" cx="300" cy="300" r="200" fill="url(#grad1)" stroke="pink" stroke-width="10"/>
+
+			<text id="textSVG" class="text" font-size="50" x="300" y="50">Часы с SVG</text>
+
+			<text id="textClock"  class="text" font-size="25" x="300" y="230"></text>
+
+			<g id='g'>
+				
+			</g>						
+
+			<g>
+				<line id="hour"  class="clockHands" x1=300 y1=300 x2=300 y2=200 stroke="black" stroke-width=6 />
+				<line id="minute" class="clockHands" x1=300 y1=300 x2=300 y2=150 stroke="black" stroke-width=2 />
+				<line id="seconds" class="clockHands" x1=300 y1=300 x2=300 y2=150 stroke="red" stroke-width=2 />
+			</g>
+
+			<circle class="circle" cx="300" cy="300" r="10" fill="yellow"/>
+
+		</svg>
+
+	</div>
+
+	<script type="text/javascript">
+		
+		var clockSvg = document.querySelector('#clockSvg');
+		var hour = clockSvg.querySelector('#hour');
+		var minute = clockSvg.querySelector('#minute');
+		var seconds = clockSvg.querySelector('#seconds');
+		var angle = 30;
+
+		var radius = 160;
+
+		for (var i = 0; i <= 11; i++) {
+        var clockCenterX=300+radius*Math.sin(angle/180*Math.PI);
+        var clockCenterY=300-radius*Math.cos(angle/180*Math.PI);
+
+		var mark = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+		var numbers = document.createElementNS("http://www.w3.org/2000/svg", "text");
+		mark.setAttribute('cx',300);
+		mark.setAttribute('cy',140);
+		mark.setAttribute('r',20);
+		mark.setAttribute('class', "marks");
+		mark.setAttribute('transform', `rotate( ${angle} )`);
+		numbers.setAttribute('x', clockCenterX);
+		numbers.setAttribute('y', clockCenterY+5);
+		numbers.setAttribute('class', "clockNumbers");
+		
+		textSVG.before(mark);
+		textSVG.before(numbers);
+
+		numbers.textContent=i + 1;
+		
+		angle += 30;
+		}
+
+		function runClock(){
+				let now = new Date;
+				let hr = now.getHours();
+				let min = now.getMinutes();
+				let sec = now.getSeconds();
+				let ms = now.getMilliseconds();
+
+				var hourRotation = 30 * (hr % 12) + 0.5*min;
+				var minRotation = 6 * min + 0.1*sec;
+				var secRotation = 6 * sec + 0.006*ms;
+
+				hour.style.transform = "rotate(" + hourRotation + "deg)";
+				minute.style.transform = "rotate(" + minRotation + "deg)";
+				seconds.style.transform = "rotate(" + secRotation + "deg)";
+				
+				if (min < 10) {min = '0' + min};
+				if (sec < 10) {sec = '0' + sec};
+				textClock.innerHTML = hr + ":" + min + ":" + sec;
+
+				requestAnimationFrame(runClock);
+
+		};
+
+		runClock();
+	</script>
+
+</body>
+</html>

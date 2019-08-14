@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MVC example</title>
+    <style>
+        body {
+            font-size: 21px;
+            text-align: center;
+        }
+
+        input {
+            min-width: 180px;
+            padding: 8px 12px;
+            border: 1px gray solid;
+            border-radius: 3px;
+            margin: 0 5px;
+        }
+
+        button {
+            font-size: 18px;
+            line-height: 21px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Пример решения задачи "в лоб"</h1>
+
+    <h3>пример умножения двух чисел</h3>
+    <form>
+        <fieldset>
+            <legend>Магия чисел</legend>
+            <p>
+                <input type="number" placeholder="Введите первое значение" name="inputValue_1" id="inputValue_1">
+                <span class="mult-sign"> x </span>
+                <input type="number" placeholder="Введите второе значение" name="inputValue_2" id="inputValue_2">
+            </p>
+            <p>
+                <button id="calculateBtn">Вычислить</button>
+            </p>
+            <div id="showResult"></div>
+        </fieldset>
+    </form>
+
+<script>
+    // ----------------------------------view--------------------------------------
+
+    var view = {
+        show: function(result){
+            let showResult = document.getElementById('showResult');
+            showResult.innerHTML = "Результат вычислений = " + result;
+        },
+
+        btnDisabled: function(state){
+            let button = document.getElementById('calculateBtn');
+            button.disabled = state;
+        }
+
+    }
+
+     // ----------------------------------model--------------------------------------   
+
+    var model = {
+        result:0,
+        
+        btnDisabled: function(state){
+            view.btnDisabled(state);
+        },
+
+        calculate: function(a,b){
+            this.result = a * b;
+            view.show(this.result);
+        }
+    }
+
+    // ----------------------------------controller--------------------------------------   
+// var input1,input2;
+
+
+    var controller = {
+
+        event: function(){
+            this.input1 = document.getElementById("inputValue_1");
+            this.input2 = document.getElementById("inputValue_2");
+            this.button = document.getElementById("calculateBtn");
+
+            model.btnDisabled(true);
+
+            this.input1.addEventListener("blur", this.check);
+            this.input2.addEventListener("blur", this.check);
+            this.button.addEventListener("click", function(e){
+                e.preventDefault();
+                controller.calc();              
+            });
+
+        },
+
+        check: function(){
+
+            if (controller.input1.value && controller.input2.value) {
+                model.btnDisabled(false);
+            } 
+            else {
+                model.btnDisabled(true);
+            }
+
+            return false;
+        },
+
+        calc: function(){
+            model.calculate(controller.input1.value,controller.input2.value);
+        }
+    }
+
+    var app = {
+        events: function() {
+            controller.event();
+        }
+    };
+    
+    app.events();
+
+</script>
+</body>
+</html>

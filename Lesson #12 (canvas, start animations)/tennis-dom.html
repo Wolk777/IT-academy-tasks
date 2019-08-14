@@ -1,0 +1,265 @@
+ <!DOCTYPE html>
+ <html>
+ <head>
+ 	<meta charset="utf-8">
+ 	<title>Tennis DOM</title>
+ 	<style type="text/css">
+ 		body{
+ 			background-color: #ddffb5;
+ 		}
+
+ 		#field{
+ 			position: relative;
+ 			left: 250px;
+ 			background-color: #d6fff8;
+ 			width: 600px;
+ 			height: 400px;
+ 		}
+
+ 		#player1,
+ 		#player2{
+ 			position: absolute;
+ 			background: linear-gradient(70deg, #FFDDD6 30%, #FFF9ED 30%, #FFF9ED 70%, #DBDBDB 70%);
+ 			width: 10px;
+ 			height: 100px;
+ 			top:150px;
+ 			border: 1px solid #bbbbbb;
+ 		}
+
+ 		#ball{
+ 			position: absolute;
+ 			background: linear-gradient(to right, #f9c4b8 35%, #FFF9ED 35%, #FFF9ED 65%, #bcbaba 65%);
+ 			width:20px;
+ 			height: 20px;
+ 			border-radius: 100%;
+			top:190px;
+			left: 290px;
+			border: 1px solid #bbbbbb;
+ 		}
+
+ 		#player2{
+ 			right: 0px;
+ 		}
+
+ 		#score{
+ 			position: absolute;
+			background: linear-gradient(to right, #FFDDD6 30%, #FFF9ED 30%, #FFF9ED 70%, #DBDBDB 70%);
+			color: #3ac978;
+ 			left: 250px;
+ 			top:50px;	
+ 			font-family: Luminari, Geneva, Arial, Helvetica, fantasy;
+ 			font-size: 300%;
+ 			width:100px;
+ 			text-align: center;
+		}
+
+		#goal{
+			position: absolute;
+			left: 135px;
+ 			top:170px;
+			display: none;
+			font-family: Bradley, Luminari, Geneva, Arial, Helvetica, fantasy;
+ 			font-size: 450%;
+ 			color: red;
+ 			animation: run 2s 1 ease-in;
+		}
+
+		@keyframes run {
+		  0% {
+		    transform: scale(0.0); 
+		  }
+		  25% {
+		    transform: scale(0.5); 
+		  }
+		  40% {
+		    transform: scale(1);  
+		  }
+		  65% {
+		    transform: scale(1.5); 
+		  }
+		  85% {
+		    transform: scale(1.25); 
+		  }
+		}
+		
+		#start{
+			position: relative;
+			color: white;
+			font-size: 150%;
+			left: 150px;
+			padding: 10px;
+			margin: 30px 100px;
+			box-shadow: 2px 2px #42f495;
+			background:#3ac978;
+			border-radius: 5px;
+			transition: 0.2s;
+		}
+		
+		#start:hover{
+			background: linear-gradient(#3ac978, #42f495) #42f495;
+
+		}
+
+ 	</style>
+ </head>
+ <body>
+ 	<audio  id = "audio" src="goal.mp3"></audio>
+ 	<audio  id = "hit" src="hit.mp3"></audio>
+ 	<div>
+		<input type="button" id="start" value="Start Tennis" onclick="start()">
+	</div>
+ 	<div id="field">
+ 		<div id="score">0:0</div>
+ 		<div id="player1"></div>
+ 		<div id="ball"></div>
+ 		<div id="player2"></div>
+ 		<div id="goal">Gooooal!!!</div>
+ 	</div>
+
+ 	<script type="text/javascript">
+		var player1, player2, ball, field, audio;
+
+ 		window.requestAnimFrame = (function(){
+		return  window.requestAnimationFrame   || 
+		window.webkitRequestAnimationFrame || 
+		window.mozRequestAnimationFrame    || 
+		window.oRequestAnimationFrame      || 
+		window.msRequestAnimationFrame     ||  
+		function( callback ){
+			return window.setTimeout(callback, 1000 / 60);
+		};
+		})();
+
+		window.cancelRequestAnimFrame = ( function() {
+			return window.cancelAnimationFrame          ||
+				window.webkitCancelRequestAnimationFrame||
+				window.mozCancelRequestAnimationFrame   ||
+				window.oCancelRequestAnimationFrame     ||
+				window.msCancelRequestAnimationFrame    ||
+				clearTimeout
+		} )();
+		
+		player1 = document.getElementById('player1');
+		player2 = document.getElementById('player2');
+		ball = document.getElementById('ball');
+		field = document.getElementById('field');
+		audio = document.getElementById('audio');
+		hit = document.getElementById('hit');
+
+		
+		var keys = [];
+		var flag = 1;
+		var playerSpeed = 4;
+		var ballVx = Math.floor(4 + Math.random()*4 - 3);
+		var ballVy = 4;
+		var ballW = ballH = ball.offsetHeight;
+		var player1Score = 0;
+		var player2Score = 0;
+
+
+		//player1.style.left = "10px";
+		function uptade(){
+
+		if(keys[87]) {player1.style.top = player1.offsetTop - playerSpeed + "px"}
+		if(keys[83]) {player1.style.top = player1.offsetTop + playerSpeed + "px"}
+		if(keys[38]) {player2.style.top = player2.offsetTop - playerSpeed + "px"}
+		if(keys[40]) {player2.style.top = player2.offsetTop + playerSpeed + "px"}
+
+		ball.style.left = ball.offsetLeft + ballVx + "px";
+		ball.style.top = ball.offsetTop + ballVy + "px";
+
+
+	    if ((ball.offsetLeft + ballW) > field.offsetWidth){
+	    	ball.style.left = field.offsetWidth - ballW + "px";
+	    	player1Score++;
+	    	gameOver();
+	    }else if((ball.offsetLeft) < 0){
+	    	ball.style.left = "0px";
+	    	player2Score++;
+	    	gameOver();
+	    }
+
+	    if ((ball.offsetTop + ballH) > field.offsetHeight){
+	    	ballVy = - ballVy;
+	    	ball.style.top = field.offsetHeight - ballH + "px";
+	    }else if((ball.offsetTop) < 0){
+	    	ballVy = - ballVy;
+	    	ball.style.top = "0px";
+	    }
+
+	    if (collision(ball, player1)) {
+	    	hit.play();
+	    	ball.style.left = player1.offsetWidth + ballW;
+	    	ballVx = - ballVx;
+	    }    
+
+	    if (collision(ball, player2)) {
+	    	hit.play();
+	    	ball.style.left = field.offsetWidth - player2.offsetWidth - ballW;
+	    	ballVx = - ballVx;
+	    }
+
+	    updateRacquet(player1);
+	    updateRacquet(player2);
+
+		}
+
+		function collision(ball,player){
+			if((ball.offsetTop) < (player.offsetTop + player.offsetHeight) && (ball.offsetTop + ballH) > (player.offsetTop)){
+				if((ball.offsetLeft) < (player.offsetLeft + player.offsetWidth) && player.offsetLeft == 0){
+					return true;
+				}else if((ball.offsetLeft + ballW) > player.offsetLeft && player.offsetLeft > 0){
+					return true; 
+				}else{
+					return false;
+				}
+			}
+		}
+
+		function updateRacquet(player){
+			if (player.offsetTop > 300) {
+		        player.style.top = "300px";
+		    } else if (player.offsetTop <= 0) {
+		        player.style.top = "0px";
+			}
+		}
+	
+		function start(){
+			if(flag){
+			ball.style.left = field.offsetWidth/2 - ballW/2 + 'px';
+			ball.style.top = field.offsetHeight/2 - ballH/2 + 'px';
+			player1.style.left = '0px';;
+			player2.style.left = field.offsetWidth - player2.offsetWidth + 'px';
+			player1.style.top = field.offsetHeight/2 - player1.offsetHeight/2 + 'px';
+			player2.style.top = field.offsetHeight/2 - player2.offsetHeight/2 + 'px';
+			goal.style.display = 'none';
+			flag = 0;
+
+			startAnimation();	
+			}
+		}
+
+		function startAnimation(){
+		timerId = requestAnimationFrame(startAnimation);
+		uptade();
+		}
+
+		function gameOver(){
+	score.innerHTML = player1Score + ":" + player2Score;
+	goal.style.display = 'block';
+	audio.play();
+	flag = 1;
+	cancelAnimationFrame(timerId);
+}
+		
+		document.body.addEventListener("keydown", function (e) {
+		    keys[e.keyCode] = true;
+		});
+		document.body.addEventListener("keyup", function (e) {
+		    keys[e.keyCode] = false;
+		});
+
+ 	</script>
+ 
+ </body>
+ </html>

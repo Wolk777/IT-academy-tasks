@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Clock in Canvas</title>
+    <style>
+        div {
+            padding-left: 180px;
+            font-size: 150%;
+            color: red;
+        }
+        h1{
+	        margin-left: 50px;
+        }
+    </style>
+	
+</head>
+<body>
+	
+<div>
+	<h1>Clock in Canvas</h1>
+	<canvas id="clock" width="500" height="500" >
+		
+	</canvas>
+</div>
+	<script>
+    	window.onload = function () {
+			var radius = 200;
+
+
+			var canvas = null;
+			var ctx = null;
+			var bufferCanvas = null;
+            var bufferCanvasCtx =  null;
+
+			function init(){
+				canvas = document.getElementById('clock');
+				ctx = canvas.getContext('2d');
+ 
+				bufferCanvas = document.createElement('canvas');
+				bufferCanvasCtx = bufferCanvas.getContext('2d');
+				bufferCanvasCtx.canvas.width = ctx.canvas.width;
+				bufferCanvasCtx.canvas.height = ctx.canvas.height;
+
+				bufferCanvasCtx.translate(250,250);
+				ctx.translate(250,250);
+
+				setInterval(runClock, 10);
+			}
+
+			init();
+
+			function drawClock(){
+			 	drawFace();
+			 	drawNamders();
+
+			 	ctx.drawImage(bufferCanvas, -250, -250, bufferCanvas.width, bufferCanvas.height);
+			}
+
+			function drawFace(){
+				var grad;
+				bufferCanvasCtx.beginPath();
+				bufferCanvasCtx.arc(0,0,radius,0,2 * Math.PI);
+				bufferCanvasCtx.fillStyle = '#ffffcc';
+				bufferCanvasCtx.fill();
+				grad = bufferCanvasCtx.createRadialGradient(0, 0 ,radius * 0.95, 0, 0, radius * 1.05);
+				grad.addColorStop(0, '#ff9999');
+				grad.addColorStop(0.5, '#ffff66');
+				grad.addColorStop(1, '#ff9999');
+				bufferCanvasCtx.strokeStyle = grad;
+				bufferCanvasCtx.lineWidth = radius * 0.1;
+				bufferCanvasCtx.stroke();
+
+			}
+
+			function drawNamders(){
+				var angle;
+				bufferCanvasCtx.font = 25 + "px arial";
+			    bufferCanvasCtx.textBaseline = "middle";
+			    bufferCanvasCtx.textAlign = "center";
+			    bufferCanvasCtx.fillStyle = 'red';
+			    for (var i = 1; i <= 12; i++) {
+			    	bufferCanvasCtx.save();
+			    	angle =  30 * Math.PI/180 * i;
+				    bufferCanvasCtx.rotate(angle);
+				    bufferCanvasCtx.translate(0, - 160);
+				    bufferCanvasCtx.rotate(-angle);
+				    bufferCanvasCtx.fillText(i.toString(), 0, 0);
+				    bufferCanvasCtx.lineWidth = 2;
+				    bufferCanvasCtx.beginPath();
+				    bufferCanvasCtx.arc(0,0,20,0,2 * Math.PI * 2);
+				    bufferCanvasCtx.stroke();
+				    bufferCanvasCtx.restore();		    	
+			    }
+			}
+
+			function runClock(){
+			    var now = new Date();
+			    var hour = now.getHours();
+			    var minute = now.getMinutes();
+			    var second = now.getSeconds();
+			    var ms = now.getMilliseconds();
+			    
+			    ctx.clearRect(-250, -250, ctx.canvas.width, ctx.canvas.height);
+				drawClock();			    
+
+				ctx.fillStyle = '#ff9999';
+				ctx.font = 'normal 30px Arial';
+				if (minute < 10) {minute = '0' + minute};
+				if (second < 10) {second = '0' + second};
+				ctx.fillText(`${hour}:${minute}:${second}`,-55, -80);
+
+			    var hourRotation = (30*(hour%12)*Math.PI/180) + (30*minute*Math.PI/(180*60));
+			    drawHand(ctx, hourRotation, 130, 8, 'black');
+
+			    var minuteRotation = (6*minute*Math.PI/180) + (6*second*Math.PI/(180*60));
+			    drawHand(ctx, minuteRotation, 165, 4, 'black');
+
+			    var secondRotation = (6*second*Math.PI/180) + (6*ms*Math.PI/(180*1000));
+			    drawHand(ctx, secondRotation, 165, 4, 'red');
+
+			    ctx.beginPath();
+			    ctx.arc(0,0,10,0,2 * Math.PI);
+				ctx.fillStyle = 'yellow';
+				ctx.fill();
+
+			}
+
+			function drawHand(ctx, pos, length, width, color){
+				ctx.beginPath();
+			    ctx.lineWidth = width;
+			    ctx.strokeStyle = color;
+			    ctx.moveTo(0,0);
+			    ctx.rotate(pos);
+			    ctx.lineTo(0, -length);
+			    ctx.stroke();
+			    ctx.rotate(-pos);
+			}
+	}
+
+	</script>
+
+	
+
+</body>
+</html>

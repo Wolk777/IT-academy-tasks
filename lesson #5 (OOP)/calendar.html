@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <style>
+    div {
+      font-size:170%;
+      position: absolute;
+      top: 120px;
+      left: 370px;
+    }
+
+    td,
+    th {
+      border: 1px solid black;
+      padding: 3px;
+      text-align: center;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    th {
+      font-weight: bold;
+      background-color: #f10909;
+    }
+
+    tr {
+      background-color: #f8f779;
+    }
+  </style>
+  <meta charset="utf-8">
+</head>
+
+<body>
+
+
+  <div id="calendar"></div>
+
+  <script>
+    while(true){
+      var year = prompt('Введите год','');
+      if (isNumeric (year)){
+        break;
+      }
+      alert('Введите корректные данные!')
+    };
+
+    while(true){
+      var month = prompt('Введите месяц','');
+      if (isNumeric (month)){
+        break;
+      }
+      alert('Введите корректные данные!')
+    };   
+
+    function createCalendar(id) {
+      var elem = document.getElementById(id);
+      var mon = month - 1;
+      var d = new Date(year, mon);
+
+      var options = {
+        year: 'numeric',
+        month: 'long',
+      };
+
+      var table = '<table><caption>'+ d.toLocaleString("ru", options) +'</caption><tr><th>ПН</th><th>ВТ</th><th>СР</th><th>ЧТ</th><th>ПТ</th><th>СБ</th><th>ВС</th></tr><tr>';
+
+      for (var i = 0; i < getDay(d); i++) {
+        table += '<td></td>';
+      }
+
+      // ячейки календаря с датами
+      while (d.getMonth() == mon) {
+        table += '<td>' + d.getDate() + '</td>';
+
+        if (getDay(d) % 7 == 6) { 
+          table += '</tr><tr>';
+        }
+
+        d.setDate(d.getDate() + 1);
+      }
+
+      if (getDay(d) != 0) {
+        for (var i = getDay(d); i < 7; i++) {
+          table += '<td></td>';
+        }
+      }
+
+      table += '</tr></table>';
+
+      elem.innerHTML = table;
+    }
+
+    createCalendar("calendar");
+
+    function getDay(date) { 
+      var day = date.getDay();
+      if (day == 0) day = 7;
+      return day - 1;
+    }
+
+    function isNumeric (n) {
+      return !isNaN(parseFloat(n) && isFinite(n));
+    }
+
+  </script>
+
+</body>
+
+</html>

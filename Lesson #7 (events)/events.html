@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>events</title>
+	<style>
+		body{
+			font-size: 22px;
+			background-color: #abfbfd;
+		}
+
+		div{
+			margin-top: 20px;
+			margin-bottom: 20px;
+			color: black;
+		}
+
+		input{
+			font-size: 120%;
+		}
+
+		li{
+			margin: 10px;
+		}
+		.good{
+			border-color: green;
+		}
+
+		.error{
+			border-color: red;
+		}
+	</style>
+</head>
+<body>
+	<div  id="div1">
+		<ol>
+			<li><a href="https://news.tut.by" title="TUT.BY">Белорусские новости</a></li>
+			<li><a href="https://ria.ru/world" title="RIA.RU">Мировые новости</a></li>
+			<li><a href="https://yandex.by/pogoda/minsk?from=serp_title" title="Pogoda Minsk">Погода в Минске</a></li>
+		</ol>	
+	</div>
+
+	<div  id="div2">
+		<ol>
+			<li><input type="text" value="Порвём"></li>
+			<li><input type="text" value="как Тузик"></li>
+			<li><input type="text" value="грелку.."></li>
+		</ol>	
+	</div>
+
+	<div  id="div3">
+		<ul>
+			<li><p>854</p></li>
+			<li><p>9</p></li>
+			<li><p>11</p></li>
+		</ul>	
+	</div>
+
+	<div  id="div4">
+		<ol>
+			<li><input type="text" value="Порвём" data-length="7"></li>
+			<li><input type="text" value="как Тузик" data-length="7"></li>
+			<li><input type="text" value="грелку.." data-length="7"></li>
+		</ol>	
+	</div>
+
+	<script>
+		link = div1.getElementsByTagName('a');
+		for (var i = 0; i < link.length; i++) {
+			link[i].onmouseover = function(event){
+			var a = event.target;
+			a.textContent = a.title +" (" + a.href + ")";
+			event.currentTarget.onmouseover = false;
+			} 
+		};
+
+		input = div2.getElementsByTagName('input');
+		for (var i = 0; i < input.length; i++) {
+			input[i].onfocus = function(event){
+			var a = event.target;
+			if(!a.classList.contains('click')){
+			a.classList.add('click');
+			console.log(a.value);
+			}
+
+			} 
+		};
+
+		p = div3.getElementsByTagName('p');
+		for (var i = 0; i < p.length; i++) {
+			p[i].onclick = function(event){
+			var a = event.target;
+			a.textContent = a.textContent*a.textContent;
+			event.currentTarget.onclick = false;
+			} 
+		};		
+
+
+		inputs = div4.getElementsByTagName('input');
+		for (var i = 0; i < inputs.length; i++) {
+			inputs[i].onblur = function(event){
+				var a = event.target;
+				if(a.value.length > a.dataset.length){
+					this.className = 'error';
+				}else{
+					this.className = 'good';
+				};
+			}; 
+		};		
+
+	</script>
+
+</body>
+</html>

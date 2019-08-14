@@ -1,0 +1,97 @@
+.clock{
+	width: 400px;
+	height: 400px;
+	background-color: lemonchiffon;
+	border-radius: 400px;
+	border: 30px outset peachpuff;
+	position: relative;
+	margin-top: 70px;
+	margin-left: 300px;
+}
+
+.hands{
+	position: absolute;
+	width: 2px;
+	height: 160px;
+	background-color: black;
+	bottom: 199px;
+	left: 199px;
+	transform-origin: 50% 100%;
+	z-index: 999;
+	opacity: 0.6;
+}
+
+.second{
+	background-color: red;
+}
+
+.hour{
+	width: 4px;
+	height: 100px;
+	bottom: 198px;
+	left: 198px;	
+}
+
+.watch{
+	position: absolute;
+	top: 120px;
+	left: 150px;
+	width: 100px;
+	height: 30px;
+	font-size: 130%;
+
+	background-color: papayawhip;
+}
+.span{
+	position: absolute;
+	top: 3px;
+	left: 10px;
+}
+
+.numbers{
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+	background-color: peachpuff;
+
+}
+
+.number{
+	position: absolute;
+top: 11px;
+left: 13px;
+	border-radius: 20px;
+}
+
+.circle{
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	left: 195px;
+	top:195px;
+	border-radius: 10px;
+	background-color: yellow;
+	z-index: 1000;	
+}
+
+/*.x{
+	position: absolute;
+	width: 400px;
+	height: 2px;
+	top: 199px;
+	left: 0px;
+
+	background-color: black;	
+}
+
+.y{
+	position: absolute;
+	width: 2px;
+	height: 400px;
+	top: 0px;
+	left: 199px;
+
+	background-color: black;	
+}*/
+
